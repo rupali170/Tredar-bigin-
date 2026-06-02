@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tredar Bigin - Chart Screenshot Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Tredar Bigin</h1>
+    <p>तुझा trading chart चा screenshot इथे upload कर. ही demo web‑app image वरून rough trend आणि BUY / SELL / WAIT सुचवते.</p>
+
+    <p class="warning">
+        ⚠ महत्वाचे: हे फक्त educational/demo analysis आहे. हा कोणताही financial किंवा investment सल्ला नाही.
+        Real trading स्वतःच्या risk वर करा.
+    </p>
+
+    <form action="/analyze" method="post" enctype="multipart/form-data" class="upload-form">
+        <label for="file">Chart Screenshot:</label>
+        <input type="file" id="file" name="file" accept="image/*" required>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if result %}
+        {% if result.error %}
+            <div class="result error">
+                <h2>Error</h2>
+                <p>{{ result.error }}</p>
+            </div>
+        {% else %}
+            <div class="result">
+                <h2>Result for: {{ result.filename }}</h2>
+                <p><strong>Trend:</strong> {{ result.trend }}</p>
+                <p><strong>Suggested Action:</strong> {{ result.action }}</p>
+                <p><strong>Confidence:</strong> {{ result.confidence }}%</p>
+                <p><strong>Explanation:</strong> {{ result.reason }}</p>
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+</body>
+</html>
